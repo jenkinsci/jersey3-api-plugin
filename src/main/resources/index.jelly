@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+  This plugin provides the <a href="https://jakarta.ee/specifications/restful-ws/3.1/">JAX-RS 3.1</a> and <a href="https://eclipse-ee4j.github.io/jersey/">Jersey 3</a> APIs for other plugins.
+</div>

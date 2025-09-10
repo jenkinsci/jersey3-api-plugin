@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>5.26</version>
+    <relativePath />
+  </parent>
+
+  <groupId>io.jenkins.plugins</groupId>
+  <artifactId>jersey3-api</artifactId>
+  <version>${revision}-${changelist}</version>
+  <packaging>hpi</packaging>
+
+  <name>Jersey 3 API</name>
+  <description>Plugin providing the JAX-RS 3.1 and Jersey 3 APIs for other plugins</description>
+  <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+
+  <licenses>
+    <license>
+      <name>EPL-2.0</name>
+      <url>https://opensource.org/licenses/EPL-2.0</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
+    <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+    <tag>${scmTag}</tag>
+    <url>https://github.com/${gitHubRepo}</url>
+  </scm>
+
+  <properties>
+    <revision>3.1.11</revision>
+    <changelist>999999-SNAPSHOT</changelist>
+    <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
+    <jenkins.baseline>2.479</jenkins.baseline>
+    <jenkins.version>${jenkins.baseline}.1</jenkins.version>
+    <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+    <spotless.check.skip>false</spotless.check.skip>
+    <hpi.bundledArtifacts>aopalliance-repackaged,hk2-api,hk2-locator,hk2-utils,jakarta.json-api,jakarta.json.bind-api,jakarta.validation-api,jakarta.ws.rs-api,javassist,jersey-apache-connector,jersey-client,jersey-common,jersey-container-servlet,jersey-container-servlet-core,jersey-entity-filtering,jersey-hk2,jersey-media-jaxb,jersey-media-json-binding,jersey-media-json-jackson,jersey-media-json-jettison,jersey-media-multipart,jersey-media-sse,jersey-server,jettison,mimepull,osgi-resource-locator,parsson,yasson</hpi.bundledArtifacts>
+    <hpi.strictBundledArtifacts>true</hpi.strictBundledArtifacts>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-${jenkins.baseline}.x</artifactId>
+        <version>4136.vca_c3202a_7fd1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jersey</groupId>
+        <artifactId>jersey-bom</artifactId>
+        <version>${revision}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- TODO until in BOM -->
+      <dependency>
+        <groupId>io.jenkins.plugins</groupId>
+        <artifactId>jakarta-xml-bind-api</artifactId>
+        <version>4.0.5-3.v3d5b_a_73965b_9</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.jettison</groupId>
+        <artifactId>jettison</artifactId>
+        <version>1.5.4</version>
+      </dependency>
+      <!-- TODO until in BOM -->
+      <dependency>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>jackson2-api</artifactId>
+        <!-- TODO https://github.com/jenkinsci/jackson2-api-plugin/pull/312 -->
+        <version>2.20.0-417.va_5311a_823a_b_8</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.jenkins.plugins</groupId>
+      <artifactId>jakarta-activation-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.jenkins.plugins</groupId>
+      <artifactId>jakarta-xml-bind-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.connectors</groupId>
+      <artifactId>jersey-apache-connector</artifactId>
+      <exclusions>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>commons-codec</groupId>
+          <artifactId>commons-codec</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+        <!-- Provided by apache-httpcomponents-client-4-api plugin -->
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <exclusions>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <exclusions>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-jaxb</artifactId>
+      <exclusions>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-binding</artifactId>
+      <exclusions>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <exclusions>
+        <!-- Provided by jackson2-api plugin -->
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.module</groupId>
+          <artifactId>jackson-module-jakarta-xmlbind-annotations</artifactId>
+        </exclusion>
+        <!-- Provided by jakarta-activation-api plugin -->
+        <exclusion>
+          <groupId>jakarta.activation</groupId>
+          <artifactId>jakarta.activation-api</artifactId>
+        </exclusion>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+        <!-- Provided by jakarta-xml-bind-api plugin -->
+        <exclusion>
+          <groupId>jakarta.xml.bind</groupId>
+          <artifactId>jakarta.xml.bind-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jettison</artifactId>
+      <exclusions>
+        <!-- Provided by jakarta-activation-api plugin -->
+        <exclusion>
+          <groupId>jakarta.activation</groupId>
+          <artifactId>jakarta.activation-api</artifactId>
+        </exclusion>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <exclusions>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-sse</artifactId>
+      <exclusions>
+        <!-- Provided by core -->
+        <exclusion>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>apache-httpcomponents-client-4-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>jackson2-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+</project>
