@@ -36,8 +36,8 @@
     <revision>3.1.11</revision>
     <changelist>999999-SNAPSHOT</changelist>
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
-    <jenkins.baseline>2.479</jenkins.baseline>
-    <jenkins.version>${jenkins.baseline}.1</jenkins.version>
+    <jenkins.baseline>2.504</jenkins.baseline>
+    <jenkins.version>${jenkins.baseline}.3</jenkins.version>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     <spotless.check.skip>false</spotless.check.skip>
     <hpi.bundledArtifacts>aopalliance-repackaged,hk2-api,hk2-locator,hk2-utils,jakarta.json-api,jakarta.json.bind-api,jakarta.validation-api,jakarta.ws.rs-api,javassist,jersey-apache-connector,jersey-client,jersey-common,jersey-container-servlet,jersey-container-servlet-core,jersey-entity-filtering,jersey-hk2,jersey-media-jaxb,jersey-media-json-binding,jersey-media-json-jackson,jersey-media-json-jettison,jersey-media-multipart,jersey-media-sse,jersey-server,jettison,mimepull,osgi-resource-locator,parsson,yasson</hpi.bundledArtifacts>
@@ -49,7 +49,7 @@
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-${jenkins.baseline}.x</artifactId>
-        <version>4136.vca_c3202a_7fd1</version>
+        <version>5543.vfd758c7c868d</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -60,22 +60,10 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- TODO until in BOM -->
-      <dependency>
-        <groupId>io.jenkins.plugins</groupId>
-        <artifactId>jakarta-xml-bind-api</artifactId>
-        <version>4.0.5-3.v3d5b_a_73965b_9</version>
-      </dependency>
       <dependency>
         <groupId>org.codehaus.jettison</groupId>
         <artifactId>jettison</artifactId>
         <version>1.5.4</version>
-      </dependency>
-      <!-- TODO until in BOM -->
-      <dependency>
-        <groupId>org.jenkins-ci.plugins</groupId>
-        <artifactId>jackson2-api</artifactId>
-        <version>2.20.0-420.v8a_08b_d57ca_05</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
